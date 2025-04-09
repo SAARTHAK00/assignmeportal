@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 3 - Command Line Dungeon Adventure</title>
+    <style>
+        :root {
+            --primary-color: #3F51B5; /* Indigo */
+            --secondary-color: #7986CB; /* Lighter Indigo */
+            --accent-color: #FF4081; /* Pink */
+            --text-color: #424242;
+            --bg-color: #E8EAF6;
+            --card-bg: #ffffff;
+            --code-bg: #282C34;
+            --code-color: #ABB2BF;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        h2, h3 {
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+        
+        .map-container {
+            background-color: #F5F5F5;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .map-title {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .dungeon-map {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .map-row {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        
+        .location {
+            width: 130px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .entrance {
+            background-color: #E3F2FD;
+            border-color: var(--primary-color);
+        }
+        
+        .key-location {
+            background-color: #E1F5FE;
+            border-color: var(--primary-color);
+        }
+        
+        .treasure {
+            background-color: #E8EAF6;
+            border-color: var(--accent-color);
+        }
+        
+        .connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .terminal {
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            font-family: 'Fira Code', 'Courier New', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            line-height: 1.5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .report-section {
+            margin: 25px 0;
+            padding: 20px;
+            background-color: #F9F9F9;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .report-section h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+        
+        .command {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            background-color: #F0F0F0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        blockquote {
+            margin: 20px 0;
+            padding: 15px 20px;
+            background-color: #F3E5F5;
+            border-left: 4px solid var(--secondary-color);
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+            border-radius: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .map-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .location {
+                margin: 5px 0;
+            }
+            
+            .connector {
+                transform: rotate(90deg);
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Command Line Dungeon Adventure</h1>
+            <p>Assignment 3 Report</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="section">
+            <h2>Adventure Report</h2>
+            
+            <div class="map-container">
+                <div class="map-title">Fortress Navigation Map</div>
+                <div class="dungeon-map">
+                    <div class="map-row">
+                        <div class="location entrance">Entrance</div>
+                        <div class="connector">→</div>
+                        <div class="location">Gatehouse</div>
+                        <div class="connector">→</div>
+                        <div class="location">Outer Walls</div>
+                    </div>
+                    
+                    <div class="connector" style="transform: rotate(90deg);">↓</div>
+                    
+                    <div class="map-row">
+                        <div class="location key-location">Storage Room</div>
+                        <div class="connector">←</div>
+                        <div class="location">Inner Keep</div>
+                        <div class="connector">←</div>
+                        <div class="location">Locked Door</div>
+                    </div>
+                    
+                    <div class="connector" style="transform: rotate(90deg);">↓</div>
+                    
+                    <div class="map-row">
+                        <div class="location">Library</div>
+                        <div class="connector">→</div>
+                        <div class="location">Guardian</div>
+                        <div class="connector">→</div>
+                        <div class="location treasure">Treasure</div>
+                    </div>
+                </div>
+                <p style="text-align:center; font-size:0.85rem; margin-top:20px; color:#666;">Highlighted locations show critical path elements</p>
+            </div>
+            
+            <div class="report-section">
+                <h3>Challenges Encountered</h3>
+                <p>Throughout my journey in the Command Line Dungeon Adventure, I encountered several obstacles:</p>
+                <ul>
+                    <li><strong>Directory Navigation:</strong> Initially struggled with proper syntax for navigating between multiple directory levels efficiently.</li>
+                    <li><strong>Key Item Management:</strong> Finding and correctly using the StoneKey.key file was not immediately intuitive.</li>
+                    <li><strong>Command Discovery:</strong> Some puzzles required using commands that weren't explicitly mentioned in the initial instructions.</li>
+                    <li><strong>Spatial Awareness:</strong> Maintaining orientation within the complex directory structure was challenging without visual references.</li>
+                </ul>
+            </div>
+
+            <div class="report-section">
+                <h3>Research and Solutions</h3>
+                <p>To overcome these challenges, I researched and implemented:</p>
+                <ul>
+                    <li>Advanced command line navigation techniques using relative and absolute paths</li>
+                    <li>File attribute manipulation using the <span class="command">attrib</span> command</li>
+                    <li>Text search methods within files using <span class="command">findstr</span></li>
+                    <li>Efficient strategies for file transfer between directories</li>
+                </ul>
+                <p>I discovered that using <span class="command">cd /</span> provided a quick way to return to the root directory when lost, significantly improving navigation efficiency.</p>
+            </div>
+
+            <div class="report-section">
+                <h3>Learning Resources</h3>
+                <p>The following resources proved invaluable in completing this assignment:</p>
+                <ul>
+                    <li><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands" target="_blank">Microsoft's Command Line Reference</a> - Comprehensive command documentation</li>
+                    <li><a href="https://ss64.com/nt/" target="_blank">SS64 Command Line Reference</a> - Quick syntax lookup</li>
+                    <li>Course textbook chapters on file systems and directory organization</li>
+                    <li>YouTube tutorial: "<a href="https://www.youtube.com/watch?v=MBBWVgE0ewk" target="_blank">Command Line Basics for Beginners</a>"</li>
+                </ul>
+            </div>
+
+            <div class="terminal">C:\> dir
+<DIR> EntranceGrounds
+ FortressLore.txt
+ README.md
+
+C:\> type README.md
+Welcome, adventurer, to the Ancient Fortress!
+Your quest is to navigate through this virtual dungeon,
+solve the puzzles, and find the treasure hidden deep within.
+Use your command-line skills wisely!
+
+C:\> cd EntranceGrounds\OuterWalls\InnerKeep\LockedDoor
+Access denied: This door requires a key.
+
+C:\> cd EntranceGrounds\OuterWalls\StorageRoom
+C:\EntranceGrounds\OuterWalls\StorageRoom> dir
+ StoneKey.key
+
+C:\EntranceGrounds\OuterWalls\StorageRoom> copy StoneKey.key C:\EntranceGrounds\OuterWalls\InnerKeep\LockedDoor
+        1 file(s) copied.
+
+C:\EntranceGrounds\OuterWalls\StorageRoom> cd C:\EntranceGrounds\OuterWalls\InnerKeep\LockedDoor
+Door unlocked! You may now proceed.
+
+C:\EntranceGrounds\OuterWalls\InnerKeep\LockedDoor\ForbiddenLibrary\VaultAntechamber> type Treasure.txt
+CONGRATULATIONS! You have found the Treasure of Knowledge!
+Your command line skills have proven worthy.</div>
+
+            <div class="report-section">
+                <h3>Learning Experience</h3>
+                <p>This assignment transformed technical concepts into an engaging learning experience:</p>
+                <blockquote>
+                    Discovering the hidden message in OldRecords.txt using the findstr command felt like solving a real detective puzzle. The moment when I finally unlocked the door by copying the key file to the right location gave me a genuine sense of accomplishment.
+                </blockquote>
+                <p>The adventure format made what could have been routine technical exercises into an immersive experience. I gained practical skills that will enhance my ability to navigate file systems efficiently in both educational and professional settings.</p>
+            </div>
+
+            <div class="report-section">
+                <h3>Creative Extensions</h3>
+                <p>To deepen my learning, I implemented several personal challenges:</p>
+                <ul>
+                    <li>Created a set of custom reference flashcards for command line operations</li>
+                    <li>Added difficulty by completing sections using only relative paths instead of absolute paths</li>
+                    <li>Maintained a detailed "commander's log" documenting each command used and its outcome</li>
+                </ul>
+            </div>
+
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li>Command line navigation provides powerful tools for efficient file system management</li>
+                <li>Directory structures follow logical patterns that can be learned and navigated systematically</li>
+                <li>Problem-solving skills developed in virtual environments transfer to real-world technical scenarios</li>
+                <li>Thorough documentation and careful instruction analysis are crucial for complex technical tasks</li>
+            </ul>
+
+            <a href="index.html" class="btn">Return to Assignment Portal</a>
+        </section>
+    </div>
+    
+    <div class="container">
+        <footer>
+            &copy; 2025 Saarthak Kudiyal - Dong-A University
+        </footer>
+    </div>
+</body>
+</html>

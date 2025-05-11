@@ -165,7 +165,7 @@
 
   <!-- Grade Fetch Script -->
   <script>
-    fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev")
+    fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev/ecex")
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

@@ -180,7 +180,8 @@
         document.getElementById("grade").innerText = "Error";
       });
     
+    < fetch >
   </script>
-  < fetch > </fetch>
+  
 </body>
 </html>

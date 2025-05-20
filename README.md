@@ -98,6 +98,7 @@
       text-decoration: none;
       transition: background-color 0.3s;
       margin-top: 20px;
+      margin-right: 10px;
     }
 
     .assignment-button:hover {
@@ -128,6 +129,101 @@
       font-weight: 600;
       z-index: 9999;
     }
+    
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      margin: 15% auto;
+      padding: 30px;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from {transform: translateY(-50px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+
+    .modal h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .modal-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      flex: 0 0 48%;
+    }
+
+    .cancel-button {
+      background-color: #e0e0e0;
+      color: #555;
+    }
+
+    .cancel-button:hover {
+      background-color: #d0d0d0;
+    }
+
+    .submit-button {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    .submit-button:hover {
+      background-color: #e91e63;
+    }
+
+    .error-message {
+      color: #f44336;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+    
+    /* Hif Lumen button specific style */
+    .hif-lumen-button {
+      background-color: #FF9800;
+    }
+    
+    .hif-lumen-button:hover {
+      background-color: #F57C00;
+    }
   </style>
 </head>
 <body>
@@ -151,6 +247,7 @@
     <main class="main-content">
       <h2>Assignments</h2>
       <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="assignment-button" target="_blank">📂 Open Assignments Folder</a>
+      <a href="#" class="assignment-button hif-lumen-button" id="hifLumenBtn">🔒 Hif Lumen</a>
     </main>
   </div>
 
@@ -162,6 +259,20 @@
 
   <!-- Grade Display -->
   <div id="grade-bar">🎓 Grade: <span id="grade">Loading...</span>%</div>
+
+  <!-- Password Modal -->
+  <div id="passwordModal" class="modal">
+    <div class="modal-content">
+      <h3>Protected Link</h3>
+      <p>Please enter the passcode to access Hif Lumen</p>
+      <input type="password" id="passwordInput" placeholder="Enter passcode">
+      <div id="errorMessage" class="error-message">Incorrect passcode. Please try again.</div>
+      <div class="modal-buttons">
+        <button class="modal-button cancel-button" id="cancelBtn">Cancel</button>
+        <button class="modal-button submit-button" id="submitBtn">Submit</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Grade Fetch Script -->
   <script>
@@ -180,8 +291,57 @@
         document.getElementById("grade").innerText = "Error";
       });
     
-    < fetch >
+    // Hif Lumen Password Protection
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('passwordModal');
+      const hifLumenBtn = document.getElementById('hifLumenBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const submitBtn = document.getElementById('submitBtn');
+      const passwordInput = document.getElementById('passwordInput');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      const correctPasscode = '1234';
+      const protectedUrl = 'https://chatgpt.com/share/682c90ea-bcec-8001-a6ad-3ddf11eb3ddf';
+      
+      hifLumenBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        modal.style.display = 'block';
+        passwordInput.value = '';
+        errorMessage.style.display = 'none';
+      });
+      
+      cancelBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+      
+      submitBtn.addEventListener('click', function() {
+        checkPassword();
+      });
+      
+      passwordInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+          checkPassword();
+        }
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+      
+      function checkPassword() {
+        if (passwordInput.value === correctPasscode) {
+          window.open(protectedUrl, '_blank');
+          modal.style.display = 'none';
+        } else {
+          errorMessage.style.display = 'block';
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      }
+    });
   </script>
-  
 </body>
 </html>

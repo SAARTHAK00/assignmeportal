@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -97,12 +97,19 @@
       border-radius: 10px;
       text-decoration: none;
       transition: background-color 0.3s;
-      margin-top: 20px;
-      margin-right: 10px;
+      margin: 20px 10px 0;
     }
 
     .assignment-button:hover {
       background-color: var(--secondary-color);
+    }
+
+    .hif-lumen-button {
+      background-color: #FF9800;
+    }
+
+    .hif-lumen-button:hover {
+      background-color: #F57C00;
     }
 
     footer {
@@ -129,7 +136,7 @@
       font-weight: 600;
       z-index: 9999;
     }
-    
+
     /* Modal Styles */
     .modal {
       display: none;
@@ -215,15 +222,6 @@
       font-size: 14px;
       display: none;
     }
-    
-    /* Hif Lumen button specific style */
-    .hif-lumen-button {
-      background-color: #FF9800;
-    }
-    
-    .hif-lumen-button:hover {
-      background-color: #F57C00;
-    }
   </style>
 </head>
 <body>
@@ -248,8 +246,7 @@
       <h2>Assignments</h2>
       <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="assignment-button" target="_blank">📂 Open Assignments Folder</a>
       <a href="#" class="assignment-button hif-lumen-button" id="hifLumenBtn">🔒 Hif Lumen</a>
-      <a href="https://2417735.github.io/crypterror/" class="Press Enter-button Press Enter-button" id="Press"Enter"Btn">🛠️ Press enter</a>
-      
+      <a href="https://2417735.github.io/crypterror/" class="assignment-button" id="pressEnterBtn" target="_blank">🛠️ Press Enter</a>
     </main>
   </div>
 
@@ -259,7 +256,6 @@
     </footer>
   </div>
 
-  <!-- Grade Display -->
   <div id="grade-bar">🎓 Grade: <span id="grade">Loading...</span>%</div>
 
   <!-- Password Modal -->
@@ -276,13 +272,12 @@
     </div>
   </div>
 
-  <!-- Grade Fetch Script -->
+  <!-- Scripts -->
   <script>
+    // Grade fetch script
     fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev/ecex")
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
         return response.text();
       })
       .then(grade => {
@@ -292,8 +287,8 @@
         console.error("Grade fetch failed:", error);
         document.getElementById("grade").innerText = "Error";
       });
-    
-    // Hif Lumen Password Protection
+
+    // Hif Lumen password protection
     document.addEventListener('DOMContentLoaded', function() {
       const modal = document.getElementById('passwordModal');
       const hifLumenBtn = document.getElementById('hifLumenBtn');
@@ -301,38 +296,33 @@
       const submitBtn = document.getElementById('submitBtn');
       const passwordInput = document.getElementById('passwordInput');
       const errorMessage = document.getElementById('errorMessage');
-      
+
       const correctPasscode = '1234';
       const protectedUrl = 'https://chatgpt.com/share/682c90ea-bcec-8001-a6ad-3ddf11eb3ddf';
-      
+
       hifLumenBtn.addEventListener('click', function(e) {
         e.preventDefault();
         modal.style.display = 'block';
         passwordInput.value = '';
         errorMessage.style.display = 'none';
       });
-      
+
       cancelBtn.addEventListener('click', function() {
         modal.style.display = 'none';
       });
-      
+
       submitBtn.addEventListener('click', function() {
         checkPassword();
       });
-      
+
       passwordInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') {
-          checkPassword();
-        }
+        if (e.key === 'Enter') checkPassword();
       });
-      
-      // Close modal when clicking outside
+
       window.addEventListener('click', function(e) {
-        if (e.target === modal) {
-          modal.style.display = 'none';
-        }
+        if (e.target === modal) modal.style.display = 'none';
       });
-      
+
       function checkPassword() {
         if (passwordInput.value === correctPasscode) {
           window.open(protectedUrl, '_blank');

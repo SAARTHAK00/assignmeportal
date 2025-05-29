@@ -248,6 +248,8 @@
       <h2>Assignments</h2>
       <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="assignment-button" target="_blank">📂 Open Assignments Folder</a>
       <a href="#" class="assignment-button hif-lumen-button" id="hifLumenBtn">🔒 Hif Lumen</a>
+      <a href="https://2417735.github.io/crypterror/" class="Press Enter-button Press Enter-button" id="Press"Enter"Btn">🛠️ Press enter</a>
+      
     </main>
   </div>
 

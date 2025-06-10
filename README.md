@@ -245,7 +245,7 @@
     <main class="main-content">
       <h2>Assignments</h2>
       <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="assignment-button" target="_blank">📂 Open Assignments Folder</a>
-      <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="Virtual Library-button" target="_blank">📂 Open Virtual Lib </a>
+      <a href="https://drive.google.com/drive/folders/1bIQHXFesTAdOqbS_Rk5hFueO6Oad6_Pc?usp=drive_link" class="Virtual Library-button" target="_blank">📂 Open Virtual Lib </a>
       <a href="#" class="assignment-button hif-lumen-button" id="hifLumenBtn">🔒 Hif Lumen</a>
       <a href="https://2417735.github.io/crypterror/" class="assignment-button" id="pressEnterBtn" target="_blank">🛠️ Press Enter</a>
     </main>

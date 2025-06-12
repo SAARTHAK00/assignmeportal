@@ -1,340 +1,226 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Saarthak Kudiyal - Assignments</title>
-  <style>
-    :root {
-      --primary-color: #3F51B5;
-      --secondary-color: #7986CB;
-      --accent-color: #FF4081;
-      --text-color: #424242;
-      --bg-color: #E8EAF6;
-      --card-bg: #ffffff;
-    }
-
-    body {
-      font-family: 'Poppins', 'Arial', sans-serif;
-      line-height: 1.7;
-      color: var(--text-color);
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color);
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-      color: white;
-      padding: 40px 0;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      letter-spacing: 1px;
-    }
-
-    header p {
-      margin: 10px 0 0;
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    .student-profile {
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      padding: 25px;
-      margin: -25px auto 30px;
-      max-width: 800px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-      position: relative;
-      border-left: 5px solid var(--accent-color);
-    }
-
-    .main-content {
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-
-    h2 {
-      color: var(--primary-color);
-      position: relative;
-      padding-bottom: 10px;
-      margin-top: 0;
-    }
-
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 50px;
-      height: 3px;
-      background-color: var(--accent-color);
-    }
-
-    .assignment-button {
-      display: inline-block;
-      padding: 15px 25px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: white;
-      background-color: var(--primary-color);
-      border-radius: 10px;
-      text-decoration: none;
-      transition: background-color 0.3s;
-      margin: 20px 10px 0;
-    }
-
-    .assignment-button:hover {
-      background-color: var(--secondary-color);
-    }
-
-    .hif-lumen-button {
-      background-color: #FF9800;
-    }
-
-    .hif-lumen-button:hover {
-      background-color: #F57C00;
-    }
-
-    footer {
-      background-color: var(--primary-color);
-      color: white;
-      text-align: center;
-      padding: 15px 0;
-      margin-top: 30px;
-      border-radius: 12px;
-    }
-
-    #grade-bar {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 10px 18px;
-      background-color: #ffffff;
-      border: 2px solid #3F51B5;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      font-family: 'Poppins', sans-serif;
-      font-size: 15px;
-      color: #3F51B5;
-      font-weight: 600;
-      z-index: 9999;
-    }
-
-    /* Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 10000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.6);
-    }
-
-    .modal-content {
-      background-color: var(--card-bg);
-      margin: 15% auto;
-      padding: 30px;
-      border-radius: 12px;
-      width: 300px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-      animation: modalIn 0.3s ease;
-    }
-
-    @keyframes modalIn {
-      from {transform: translateY(-50px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
-    }
-
-    .modal h3 {
-      color: var(--primary-color);
-      margin-top: 0;
-    }
-
-    .modal input {
-      width: 100%;
-      padding: 12px;
-      margin: 15px 0;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 16px;
-      text-align: center;
-    }
-
-    .modal-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
-    .modal-button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      flex: 0 0 48%;
-    }
-
-    .cancel-button {
-      background-color: #e0e0e0;
-      color: #555;
-    }
-
-    .cancel-button:hover {
-      background-color: #d0d0d0;
-    }
-
-    .submit-button {
-      background-color: var(--accent-color);
-      color: white;
-    }
-
-    .submit-button:hover {
-      background-color: #e91e63;
-    }
-
-    .error-message {
-      color: #f44336;
-      margin-top: 10px;
-      font-size: 14px;
-      display: none;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="container">
-      <h1>Saarthak Kudiyal</h1>
-      <p>Information Management Systems</p>
-    </div>
-  </header>
-
-  <div class="container">
-    <section class="student-profile">
-      <h2>About Me</h2>
-      <p>
-        <strong>Student ID:</strong> 2417632<br>
-        <strong>University:</strong> Dong-A University<br>
-        <strong>Department:</strong> Integrated Business Management
-      </p>
-    </section>
-
-    <main class="main-content">
-      <h2>Assignments</h2>
-      <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="assignment-button" target="_blank">📂 Open Assignments Folder</a>
-      <a href="https://drive.google.com/drive/folders/1bIQHXFesTAdOqbS_Rk5hFueO6Oad6_Pc?usp=drive_link" class="Virtual Library-button" target="_blank">📂 Open Virtual Lib </a>
-      <a href="#" class="assignment-button hif-lumen-button" id="hifLumenBtn">🔒 Hif Lumen</a>
-      <a href="https://2417735.github.io/crypterror/" class="assignment-button" id="pressEnterBtn" target="_blank">🛠️ Press Enter</a>
-    </main>
-  </div>
-
-  <div class="container">
-    <footer>
-      &copy; 2025 Saarthak Kudiyal - Dong-A University
-    </footer>
-  </div>
-
-  <div id="grade-bar">🎓 Grade: <span id="grade">Loading...</span>%</div>
-
-  <!-- Password Modal -->
-  <div id="passwordModal" class="modal">
-    <div class="modal-content">
-      <h3>Protected Link</h3>
-      <p>Please enter the passcode to access Hif Lumen</p>
-      <input type="password" id="passwordInput" placeholder="Enter passcode">
-      <div id="errorMessage" class="error-message">Incorrect passcode. Please try again.</div>
-      <div class="modal-buttons">
-        <button class="modal-button cancel-button" id="cancelBtn">Cancel</button>
-        <button class="modal-button submit-button" id="submitBtn">Submit</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script>
-    // Grade fetch script
-    fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev/ecex")
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.text();
-      })
-      .then(grade => {
-        document.getElementById("grade").innerText = grade;
-      })
-      .catch(error => {
-        console.error("Grade fetch failed:", error);
-        document.getElementById("grade").innerText = "Error";
-      });
-
-    // Hif Lumen password protection
-    document.addEventListener('DOMContentLoaded', function() {
-      const modal = document.getElementById('passwordModal');
-      const hifLumenBtn = document.getElementById('hifLumenBtn');
-      const cancelBtn = document.getElementById('cancelBtn');
-      const submitBtn = document.getElementById('submitBtn');
-      const passwordInput = document.getElementById('passwordInput');
-      const errorMessage = document.getElementById('errorMessage');
-
-      const correctPasscode = '1234';
-      const protectedUrl = 'https://chatgpt.com/share/682c90ea-bcec-8001-a6ad-3ddf11eb3ddf';
-
-      hifLumenBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        modal.style.display = 'block';
-        passwordInput.value = '';
-        errorMessage.style.display = 'none';
-      });
-
-      cancelBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-
-      submitBtn.addEventListener('click', function() {
-        checkPassword();
-      });
-
-      passwordInput.addEventListener('keyup', function(e) {
-        if (e.key === 'Enter') checkPassword();
-      });
-
-      window.addEventListener('click', function(e) {
-        if (e.target === modal) modal.style.display = 'none';
-      });
-
-      function checkPassword() {
-        if (passwordInput.value === correctPasscode) {
-          window.open(protectedUrl, '_blank');
-          modal.style.display = 'none';
-        } else {
-          errorMessage.style.display = 'block';
-          passwordInput.value = '';
-          passwordInput.focus();
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saarthak Kudiyal - Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-      }
-    });
-  </script>
+        /* Custom class for the unique blob shape (optional, can be an SVG mask as well) */
+        .blob-shape {
+            /* This is a simplified circle, for a true blob more complex CSS or SVG would be needed */
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen bg-gray-100 text-gray-800">
+
+    <!-- Left Sidebar -->
+    <aside class="w-64 bg-white flex flex-col p-8 shadow-lg z-10 flex-shrink-0">
+        <div class="mb-10">
+            <h1 class="text-2xl font-bold uppercase tracking-wider text-gray-900">PORTAL</h1>
+        </div>
+        <nav class="flex-grow">
+            <ul class="space-y-4">
+                <li><a href="#" class="block text-gray-700 hover:text-gray-900 font-medium transition duration-300">Home</a></li>
+                <li><a href="#" class="block text-gray-700 hover:text-gray-900 font-medium transition duration-300">About</a></li>
+                <!-- Portfolio Dropdown -->
+                <li class="relative">
+                    <button id="portfolio-dropdown-btn" class="flex items-center justify-between w-full text-left text-gray-700 hover:text-gray-900 font-medium transition duration-300 focus:outline-none">
+                        <span>Portfolio</span>
+                        <svg class="w-4 h-4 ml-2 transform rotate-0 transition-transform duration-300" id="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="portfolio-dropdown-content" class="hidden absolute left-full top-0 ml-4 w-48 bg-white rounded-lg shadow-lg py-2 z-20 transition-all duration-300 ease-out origin-top-left scale-95 opacity-0">
+                        <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200" target="_blank">Assignments Folder</a>
+                        <a href="https://drive.google.com/drive/folders/1bIQHXFesTAdOqbS_Rk5hFueO6Oad6_Pc?usp=drive_link" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200" target="_blank">Virtual Lib</a>
+                        <a href="https://2417735.github.io/crypterror/" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200" target="_blank">Press Enter Project</a>
+                        <a href="tutoring_conversation.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200" target="_blank">AI Tutor Conversation</a>
+                        <!-- Hif Lumen button functionality kept in JS, but UI removed to match image -->
+                        <!-- If you want Hif Lumen as a dropdown item, uncomment and modify below -->
+                        <!-- <a href="#" id="hifLumenBtnDropdown" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200">🔒 Hif Lumen</a> -->
+                    </div>
+                </li>
+                <li><a href="#" class="block text-gray-700 hover:text-gray-900 font-medium transition duration-300">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="mt-auto text-gray-500 text-sm">
+            <p>&copy; 2021 Portal</p>
+            <p>Created by Marketify</p>
+            <!-- Original content for your site: -->
+            <p class="mt-2">&copy; 2025 Saarthak Kudiyal</p>
+            <p>Dong-A University</p>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex items-center justify-center p-8">
+        <div class="text-center max-w-2xl px-4">
+            <!-- Profile Picture -->
+            <div class="relative w-48 h-48 mx-auto mb-8 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center blob-shape border-4 border-gray-300">
+                <img src="https://placehold.co/192x192/cccccc/333333?text=Profile" alt="Profile Picture" class="w-full h-full object-cover">
+                <!-- For a more realistic blob shape, you'd typically use an SVG mask or a more complex clip-path property.
+                     The 'blob-shape' class above is a simplified attempt at an organic, rounded form. -->
+            </div>
+
+            <!-- Name and Title -->
+            <h2 class="text-4xl md:text-5xl font-extrabold uppercase tracking-wide mb-2 text-gray-900">SAARTHAK KUDIYAL</h2>
+            <p class="text-lg md:text-xl text-gray-600 mb-8">Creative Photographer based in New York and happy to travel all over Europe to capture photos.</p>
+            <!-- Replace with your actual details: -->
+            <p class="text-lg md:text-xl text-gray-600 mb-8">Saarthak Kudiyal, Student at Dong-A University pursuing Integrated Business Management.</p>
+
+
+            <!-- Social Media Icons -->
+            <div class="flex justify-center space-x-6 text-gray-500 text-2xl mb-12">
+                <a href="#" class="hover:text-gray-900 transition duration-300"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-gray-900 transition duration-300"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-gray-900 transition duration-300"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-gray-900 transition duration-300"><i class="fab fa-dribbble"></i></a>
+                <a href="#" class="hover:text-gray-900 transition duration-300"><i class="fab fa-tiktok"></i></a>
+            </div>
+
+            <!-- Dot element -->
+            <div class="w-5 h-5 rounded-full border-2 border-gray-400 mx-auto"></div>
+        </div>
+    </main>
+
+    <!-- Password Modal (kept for functionality, hidden by default) -->
+    <div id="passwordModal" class="hidden fixed z-50 inset-0 overflow-y-auto bg-black bg-opacity-60 flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl p-8 w-80 max-w-sm transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Protected Link</h3>
+            <p class="text-sm text-gray-500 mb-4">Please enter the passcode to access Hif Lumen</p>
+            <input type="password" id="passwordInput" placeholder="Enter passcode" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <div id="errorMessage" class="text-red-600 text-sm mt-2 hidden">Incorrect passcode. Please try again.</div>
+            <div class="mt-5 sm:mt-6 flex justify-end space-x-3">
+                <button type="button" id="cancelBtn" class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                    Cancel
+                </button>
+                <button type="button" id="submitBtn" class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownBtn = document.getElementById('portfolio-dropdown-btn');
+            const dropdownContent = document.getElementById('portfolio-dropdown-content');
+            const dropdownArrow = document.getElementById('dropdown-arrow');
+
+            // Toggle dropdown visibility
+            dropdownBtn.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent click from immediately closing it if body listener is present
+                const isHidden = dropdownContent.classList.contains('hidden');
+                if (isHidden) {
+                    dropdownContent.classList.remove('hidden', 'opacity-0', 'scale-95');
+                    dropdownContent.classList.add('opacity-100', 'scale-100');
+                    dropdownArrow.classList.add('rotate-180');
+                } else {
+                    dropdownContent.classList.remove('opacity-100', 'scale-100');
+                    dropdownContent.classList.add('opacity-0', 'scale-95');
+                    dropdownArrow.classList.remove('rotate-180');
+                    // Add hidden back after transition
+                    setTimeout(() => {
+                        dropdownContent.classList.add('hidden');
+                    }, 300);
+                }
+            });
+
+            // Close dropdown if clicked outside
+            document.addEventListener('click', function(event) {
+                if (!dropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
+                    if (!dropdownContent.classList.contains('hidden')) {
+                        dropdownContent.classList.remove('opacity-100', 'scale-100');
+                        dropdownContent.classList.add('opacity-0', 'scale-95');
+                        dropdownArrow.classList.remove('rotate-180');
+                        setTimeout(() => {
+                            dropdownContent.classList.add('hidden');
+                        }, 300);
+                    }
+                }
+            });
+
+            // Original Grade Bar and Password Modal JavaScript (functionality retained, UI elements for grade bar removed)
+            // Hif Lumen password protection
+            const modal = document.getElementById('passwordModal');
+            // const hifLumenBtn = document.getElementById('hifLumenBtn'); // This button is no longer directly in the main nav
+            const hifLumenBtnDropdown = document.getElementById('hifLumenBtnDropdown'); // For future use if added to dropdown
+            const cancelBtn = document.getElementById('cancelBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const passwordInput = document.getElementById('passwordInput');
+            const errorMessage = document.getElementById('errorMessage');
+
+            const correctPasscode = '1234';
+            const protectedUrl = 'https://chatgpt.com/share/682c90ea-bcec-8001-a6ad-3ddf11eb3ddf';
+
+            // Listener for Hif Lumen button (if it's in the dropdown)
+            if (hifLumenBtnDropdown) {
+                hifLumenBtnDropdown.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.classList.remove('hidden'); // Show modal
+                    passwordInput.value = '';
+                    errorMessage.classList.add('hidden');
+                });
+            }
+
+            cancelBtn.addEventListener('click', function() {
+                modal.classList.add('hidden'); // Hide modal
+            });
+
+            submitBtn.addEventListener('click', function() {
+                checkPassword();
+            });
+
+            passwordInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') checkPassword();
+            });
+
+            // Close modal if clicked outside of its content
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+
+            function checkPassword() {
+                if (passwordInput.value === correctPasscode) {
+                    window.open(protectedUrl, '_blank');
+                    modal.classList.add('hidden'); // Hide modal on success
+                } else {
+                    errorMessage.classList.remove('hidden');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+
+            // Grade fetch script (functionality retained, UI removed to match Tokyo design)
+            fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev/ecex")
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(grade => {
+                    // console.log("Fetched Grade:", grade); // For debugging: you can see the grade in console
+                    // The element for grade display was removed to match the Tokyo.webp design.
+                })
+                .catch(error => {
+                    console.error("Grade fetch failed:", error);
+                    // The element for grade display was removed.
+                });
+        });
+    </script>
 </body>
 </html>

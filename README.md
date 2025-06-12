@@ -205,7 +205,7 @@
                     passwordInput.focus();
                 }
             }
-
+<script>
             // Grade fetch script (functionality retained, UI removed to match Tokyo design)
             fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev/ecex")
                 .then(response => {

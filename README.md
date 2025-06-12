@@ -68,7 +68,7 @@
         <div class="text-center max-w-2xl px-4">
             <!-- Profile Picture -->
             <div class="relative w-48 h-48 mx-auto mb-8 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center blob-shape border-4 border-gray-300">
-                <img src="https://placehold.co/192x192/cccccc/333333?text=Profile" alt="Profile Picture" class="w-full h-full object-cover">
+                <img src="igk.jpeg" alt="Profile Picture" class="w-full h-full object-cover">
                 <!-- For a more realistic blob shape, you'd typically use an SVG mask or a more complex clip-path property.
                      The 'blob-shape' class above is a simplified attempt at an organic, rounded form. -->
             </div>

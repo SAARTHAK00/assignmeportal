@@ -6,26 +6,49 @@
     <title>Saarthak Kudiyal - Portfolio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for a clean, modern look -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for social icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Ensures the entire body uses the Inter font */
         body {
             font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased; /* Smoother font rendering on WebKit browsers */
+            -moz-osx-font-smoothing: grayscale; /* Smoother font rendering on Firefox */
         }
         /* Custom class for the unique blob shape (optional, can be an SVG mask as well) */
+        /* This is a simplified circle, for a true blob more complex CSS or SVG would be needed */
         .blob-shape {
-            /* This is a simplified circle, for a true blob more complex CSS or SVG would be needed */
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .flex-container {
+                flex-direction: column; /* Stack sidebar and main content vertically */
+            }
+            aside {
+                width: 100%; /* Sidebar takes full width */
+                height: auto; /* Allow sidebar height to adjust */
+                padding-bottom: 20px; /* Add some padding at the bottom for smaller screens */
+            }
+            main {
+                padding: 20px; /* Adjust main content padding */
+            }
+            /* Adjust dropdown position for mobile */
+            #portfolio-dropdown-content {
+                left: 0; /* Position dropdown under the button */
+                margin-top: 10px; /* Space from the button */
+                width: 100%; /* Make dropdown full width of sidebar */
+                position: relative; /* Change position to relative within flow */
+            }
         }
     </style>
 </head>
-<body class="flex min-h-screen bg-gray-100 text-gray-800">
+<body class="flex flex-col md:flex-row min-h-screen bg-gray-100 text-gray-800 flex-container">
 
     <!-- Left Sidebar -->
-    <aside class="w-64 bg-white flex flex-col p-8 shadow-lg z-10 flex-shrink-0">
+    <aside class="w-full md:w-64 bg-white flex flex-col p-8 shadow-lg z-10 flex-shrink-0">
         <div class="mb-10">
             <h1 class="text-2xl font-bold uppercase tracking-wider text-gray-900">PORTAL</h1>
         </div>
@@ -41,7 +64,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div id="portfolio-dropdown-content" class="hidden absolute left-full top-0 ml-4 w-48 bg-white rounded-lg shadow-lg py-2 z-20 transition-all duration-300 ease-out origin-top-left scale-95 opacity-0">
+                    <!-- Dropdown content for Portfolio -->
+                    <div id="portfolio-dropdown-content" class="hidden md:absolute md:left-full md:top-0 md:ml-4 w-48 bg-white rounded-lg shadow-lg py-2 z-20 transition-all duration-300 ease-out origin-top-left scale-95 opacity-0">
                         <a href="https://drive.google.com/drive/folders/14iWDTLV-28TxzduObKtcng0zCyJuS3NV?usp=drive_link" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200" target="_blank">Assignments Folder</a>
                         <a href="https://drive.google.com/drive/folders/1bIQHXFesTAdOqbS_Rk5hFueO6Oad6_Pc?usp=drive_link" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200" target="_blank">Virtual Lib</a>
                         <a href="https://2417735.github.io/crypterror/" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition duration-200" target="_blank">Press Enter Project</a>
@@ -56,8 +80,6 @@
         </nav>
         <div class="mt-auto text-gray-500 text-sm">
             <p>&copy; 2021 Portal</p>
-            <p>Created by Marketify</p>
-            <!-- Original content for your site: -->
             <p class="mt-2">&copy; 2025 Saarthak Kudiyal</p>
             <p>Dong-A University</p>
         </div>
@@ -68,17 +90,19 @@
         <div class="text-center max-w-2xl px-4">
             <!-- Profile Picture -->
             <div class="relative w-48 h-48 mx-auto mb-8 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center blob-shape border-4 border-gray-300">
-                <img src="igk.jpeg" alt="Profile Picture" class="w-full h-full object-cover">
+                <img src="https://placehold.co/192x192/cccccc/333333?text=Profile" alt="Profile Picture" class="w-full h-full object-cover">
                 <!-- For a more realistic blob shape, you'd typically use an SVG mask or a more complex clip-path property.
                      The 'blob-shape' class above is a simplified attempt at an organic, rounded form. -->
             </div>
 
+            <!-- "PORTAL" bar below the profile -->
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold uppercase tracking-wider text-gray-900">PORTAL</h1>
+            </div>
+
             <!-- Name and Title -->
             <h2 class="text-4xl md:text-5xl font-extrabold uppercase tracking-wide mb-2 text-gray-900">SAARTHAK KUDIYAL</h2>
-            <p class="text-lg md:text-xl text-gray-600 mb-8">Creative Photographer based in New York and happy to travel all over Europe to capture photos.</p>
-            <!-- Replace with your actual details: -->
-            <p class="text-lg md:text-xl text-gray-600 mb-8">Saarthak Kudiyal, Student at Dong-A University pursuing Integrated Business Management.</p>
-
+            <p class="text-lg md:text-xl text-gray-600 mb-8">Student at Dong-A University pursuing Integrated Business Management.</p>
 
             <!-- Social Media Icons -->
             <div class="flex justify-center space-x-6 text-gray-500 text-2xl mb-12">
@@ -153,10 +177,8 @@
                 }
             });
 
-            // Original Grade Bar and Password Modal JavaScript (functionality retained, UI elements for grade bar removed)
             // Hif Lumen password protection
             const modal = document.getElementById('passwordModal');
-            // const hifLumenBtn = document.getElementById('hifLumenBtn'); // This button is no longer directly in the main nav
             const hifLumenBtnDropdown = document.getElementById('hifLumenBtnDropdown'); // For future use if added to dropdown
             const cancelBtn = document.getElementById('cancelBtn');
             const submitBtn = document.getElementById('submitBtn');
@@ -205,7 +227,7 @@
                     passwordInput.focus();
                 }
             }
-<script>
+
             // Grade fetch script (functionality retained, UI removed to match Tokyo design)
             fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev/ecex")
                 .then(response => {

@@ -18,9 +18,12 @@
             -moz-osx-font-smoothing: grayscale; /* Smoother font rendering on Firefox */
         }
         /* Custom class for the unique blob shape (optional, can be an SVG mask as well) */
-        /* This is a simplified circle, for a true blob more complex CSS or SVG would be needed */
         .blob-shape {
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+        /* Adjusted body padding to account for fixed top bar */
+        body {
+            padding-top: 56px; /* Adjust this value to match the height of your top bar */
         }
         /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
@@ -42,10 +45,27 @@
                 width: 100%; /* Make dropdown full width of sidebar */
                 position: relative; /* Change position to relative within flow */
             }
+            /* Adjust body padding for fixed top bar on small screens */
+            body {
+                padding-top: 56px; /* Ensure consistency */
+            }
         }
     </style>
 </head>
 <body class="flex flex-col md:flex-row min-h-screen bg-gray-100 text-gray-800 flex-container">
+
+    <!-- Top Grade Bar -->
+    <div id="gradeBar" class="fixed top-0 left-0 w-full bg-blue-600 text-white p-3 flex items-center justify-center shadow-md z-50">
+        <button id="checkGradeBtn" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-1 px-3 rounded-md shadow transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Check My Grade
+        </button>
+        <span id="gradeDisplay" class="text-lg font-medium ml-4 hidden"></span>
+        <!-- Optional: Loading spinner inside the bar -->
+        <svg id="gradeLoadingSpinner" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    </div>
 
     <!-- Left Sidebar -->
     <aside class="w-full md:w-64 bg-white flex flex-col p-8 shadow-lg z-10 flex-shrink-0">
@@ -92,7 +112,7 @@
             <div class="relative w-48 h-48 mx-auto mb-8 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center blob-shape border-4 border-gray-300">
                 <img src="https://placehold.co/192x192/cccccc/333333?text=Profile" alt="Profile Picture" class="w-full h-full object-cover">
                 <!-- For a more realistic blob shape, you'd typically use an SVG mask or a more complex clip-path property.
-                     The 'blob-shape' class above is a simplified attempt at an organic, rounded form. -->
+                    The 'blob-shape' class above is a simplified attempt at an organic, rounded form. -->
             </div>
 
             <!-- "PORTAL" bar below the profile -->
@@ -228,20 +248,63 @@
                 }
             }
 
-            // Grade fetch script (functionality retained, UI removed to match Tokyo design)
-            fetch("https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev/ecex")
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.text();
-                })
-                .then(grade => {
-                    // console.log("Fetched Grade:", grade); // For debugging: you can see the grade in console
-                    // The element for grade display was removed to match the Tokyo.webp design.
-                })
-                .catch(error => {
+            // --- Grade Fetching for Top Bar ---
+            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev';
+            const CURRENT_STUDENT_NAME = 'Saarthak Kudiyal';
+
+            const checkGradeBtn = document.getElementById('checkGradeBtn');
+            const gradeDisplay = document.getElementById('gradeDisplay');
+            const gradeLoadingSpinner = document.getElementById('gradeLoadingSpinner');
+
+            // Event listener for the "Check My Grade" button
+            checkGradeBtn.addEventListener('click', fetchGrade);
+
+            async function fetchGrade() {
+                // Hide button, show spinner and initial text
+                checkGradeBtn.classList.add('hidden');
+                gradeDisplay.classList.remove('hidden');
+                gradeLoadingSpinner.classList.remove('hidden');
+                gradeDisplay.textContent = 'Fetching your grade...';
+                gradeDisplay.classList.remove('text-red-300', 'text-yellow-300'); // Clear any previous error/warning styling
+
+                try {
+                    const response = await fetch(WEB_APP_URL);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    gradeLoadingSpinner.classList.add('hidden'); // Hide spinner on completion
+
+                    if (data.error) {
+                        gradeDisplay.textContent = `Error: ${data.message}`;
+                        gradeDisplay.classList.add('text-red-300');
+                        console.error("Apps Script Error:", data.message);
+                        return;
+                    }
+
+                    const studentData = data.find(row => row['Name'] === CURRENT_STUDENT_NAME);
+
+                    if (studentData) {
+                        const studentGrade = studentData['Grade'];
+                        if (studentGrade !== undefined && studentGrade !== null && studentGrade !== '') {
+                            gradeDisplay.textContent = `Your Total Grade: ${studentGrade}`;
+                            // Example: if (studentGrade >= 90) gradeDisplay.classList.add('text-green-300');
+                        } else {
+                            gradeDisplay.textContent = `${CURRENT_STUDENT_NAME}'s grade not found or is empty.`;
+                            gradeDisplay.classList.add('text-yellow-300');
+                        }
+                    } else {
+                        gradeDisplay.textContent = `Grade for ${CURRENT_STUDENT_NAME} not found.`;
+                        gradeDisplay.classList.add('text-red-300');
+                    }
+                } catch (error) {
+                    gradeLoadingSpinner.classList.add('hidden'); // Ensure spinner is hidden on error
+                    gradeDisplay.textContent = `Failed to load grade: ${error.message}`;
+                    gradeDisplay.classList.add('text-red-300');
                     console.error("Grade fetch failed:", error);
-                    // The element for grade display was removed.
-                });
+                }
+            }
         });
     </script>
 </body>

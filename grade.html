@@ -1,0 +1,115 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Total Grades</title>
+    <!-- Tailwind CSS CDN for quick styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 flex items-center justify-center min-h-screen">
+
+    <div class="container mx-auto p-6 bg-white shadow-lg rounded-xl max-w-2xl w-full">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Student Total Grades</h1>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="text-center text-gray-600 text-lg flex items-center justify-center p-4">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Fetching grades...
+        </div>
+
+        <!-- Error message display -->
+        <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-4" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span class="block sm:inline" id="errorText"></span>
+        </div>
+
+        <!-- Grades list container -->
+        <div id="gradesListContainer" class="rounded-lg shadow-md border border-gray-200 p-4 hidden">
+            <ul id="gradesList" class="divide-y divide-gray-200">
+                <!-- Grade data will be inserted here by JavaScript -->
+            </ul>
+        </div>
+
+        <p class="text-sm text-gray-500 mt-6 text-center">
+            Total grades updated automatically from your Google Sheet.
+        </p>
+    </div>
+
+    <script>
+        // IMPORTANT: Replace 'YOUR_WEB_APP_URL_HERE' with the Web app URL you got after deploying
+        // the Google Apps Script. It will look something like:
+        // 'https://script.google.com/macros/s/AKfycbzzzzz.../exec'
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygySpoqdNcUVNZ8TuFwMKGP6Ofu9axR382C13prSA/dev'; // <<< UPDATED THIS!
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loadingIndicator = document.getElementById('loading');
+            const errorMessageDiv = document.getElementById('errorMessage');
+            const errorTextSpan = document.getElementById('errorText');
+            const gradesListContainer = document.getElementById('gradesListContainer');
+            const gradesList = document.getElementById('gradesList');
+
+            try {
+                // Fetch data from the Google Apps Script web app
+                const response = await fetch(WEB_APP_URL);
+                const data = await response.json();
+
+                // Hide loading indicator
+                loadingIndicator.classList.add('hidden');
+
+                if (data.error) {
+                    // Display specific error from the Apps Script
+                    errorMessageDiv.classList.remove('hidden');
+                    errorTextSpan.textContent = data.message || 'An unknown error occurred.';
+                    gradesListContainer.classList.add('hidden'); // Ensure list is hidden on error
+                    return; // Stop execution if there's an error
+                }
+
+                if (!data || data.length === 0) {
+                    // Handle case where no data is returned
+                    errorMessageDiv.classList.remove('hidden');
+                    errorTextSpan.textContent = 'No grade data available. Please check the sheet and script configuration.';
+                    gradesListContainer.classList.add('hidden');
+                    return;
+                }
+
+                // Clear existing list items and populate with new data
+                gradesList.innerHTML = '';
+                data.forEach(rowData => {
+                    // Assuming 'Name' and 'Grade' are the column headers in your sheet
+                    const studentName = rowData['Name'] || 'Unknown Student';
+                    const studentGrade = rowData['Grade'] !== undefined && rowData['Grade'] !== null ? rowData['Grade'] : 'N/A';
+
+                    const li = document.createElement('li');
+                    li.className = 'py-3 flex justify-between items-center';
+                    li.innerHTML = `
+                        <span class="text-lg font-medium text-gray-900">${studentName}</span>
+                        <span class="text-lg font-semibold text-blue-600">${studentGrade}</span>
+                    `;
+                    gradesList.appendChild(li);
+                });
+
+                // Show the list once data is loaded and rendered
+                gradesListContainer.classList.remove('hidden');
+
+            } catch (error) {
+                // Catch any network or parsing errors
+                loadingIndicator.classList.add('hidden');
+                errorMessageDiv.classList.remove('hidden');
+                errorTextSpan.textContent = `Failed to fetch total grades. Please ensure the Apps Script is deployed correctly and the URL is valid. Error: ${error.message}`;
+                console.error('Error fetching total grades:', error);
+            }
+        });
+    </script>
+</body>
+</html>
